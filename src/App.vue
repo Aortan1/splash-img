@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-
+    <div v-for="photo in photos" style="display: inline-block;">
+      <img :src="photo.urls.small" alt="">
+    </div>
 
   </div>
 </template>
@@ -15,12 +17,13 @@ export default {
     return {
       photos: [],
       totalPhotos: 0,
-      perPage: 9,
+      perPage: 30,
       currentPage: 1
     }
   },
     methods:{
       fetchPhotos: function(page) {
+          let that = this;
           let options = {
                 params:{
                     client_id: appId,
@@ -30,7 +33,10 @@ export default {
           }
           axios.get('https://api.unsplash.com/photos', options)
               .then(function(response) {
-                  console.log(response)
+                  console.log(response.data)
+                  that.photos = response.data
+                  that.totalPhotos = parseInt(response.headers.get('x-total'))
+                  that.currentPage = page
               }, console.log)
       }
     },
@@ -41,30 +47,6 @@ export default {
 </script>
 
 <style lang="sass">
-#app
-  font-family: 'Avenir', Helvetica, Arial, sans-serif
-  -webkit-font-smoothing: antialiased
-  -moz-osx-font-smoothing: grayscale
-  text-align: center
-  color: #2c3e50
-  margin-top: 60px
 
-
-h1, h2
-  font-weight: normal
-
-
-ul
-  list-style-type: none
-  padding: 0
-
-
-li
-  display: inline-block
-  margin: 0 10px
-
-
-a
-  color: #42b983
 
 </style>
