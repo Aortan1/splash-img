@@ -1,18 +1,30 @@
 <template>
   <div id="app">
-    <div v-for="photo in photos" style="display: inline-block;">
-      <img :src="photo.urls.small" alt="">
-    </div>
-
+    <pagination :current="currentPage" @page-changed="fetchPhotos"></pagination>
+    <section class="grid">
+      <div class="grid__item card" v-for="photo in photos">
+        <div class="card__body">
+          <img :src="photo.urls.small" alt="">
+        </div>
+        <div class="card__footer media">
+          <img :src="photo.user.profile_image.small" alt="" class="media__obj">
+          <div class="media__body">
+            <a :href="photo.user.portfolio_url" target="_blank">{{ photo.user.name }}</a>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
 let appId = '98b0de5d034c6790a26f5557ffd78c56951a15813d244204e8478bf1fea3b0e6'
 import axios from "axios"
+import Pagination from './components/Pagination.vue'
 
 export default {
   name: 'app',
+  components: {Pagination},
   data () {
     return {
       photos: [],
@@ -35,7 +47,8 @@ export default {
               .then(function(response) {
                   console.log(response.data)
                   that.photos = response.data
-                  that.totalPhotos = parseInt(response.headers.get('x-total'))
+                  //that.totalPhotos = parseInt(response.headers.get('x-total')) // общее кол-во фоток на сервере - в заголовке 'x-total' (=~49150)
+                  that.totalPhotos = 49150;
                   that.currentPage = page
               }, console.log)
       }
@@ -46,7 +59,10 @@ export default {
 }
 </script>
 
-<style lang="sass">
+
+<style src="./assets/style.css"></style>
+
+<!--<style lang="sass">-->
 
 
-</style>
+<!--</style>-->
