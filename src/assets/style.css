@@ -111,7 +111,7 @@ body{
     float: right;
 }
 
-.pagination a {
+.pagination a, .pagination span {
     display: block;
     text-align: center;
     font-family: Helvetica, Arial, sans-serif;
@@ -120,6 +120,9 @@ body{
     height: 44px;
     color: #999;
     font-size: 18px;
+}
+
+.pagination a {
     padding: 0 20px;
     max-width: 160px;
     background-color: transparent;
@@ -130,9 +133,24 @@ body{
     transition: all .3s ease-in-out;
 }
 
-.pagination a:hover {
+.pagination a:hover, .pagination a.current {
     border-color: #ea4c89;
     color: #ea4c89;
 }
 
 
+.pagination__mid {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+}
+
+.pagination__mid ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.pagination__mid li {
+    display: inline-block;
+}

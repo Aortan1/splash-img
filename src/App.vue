@@ -1,10 +1,15 @@
 <template>
   <div id="app">
-    <pagination :current="currentPage" @page-changed="fetchPhotos"></pagination>
+    <pagination :current="currentPage"
+                :total="totalPhotos"
+                :perPage="perPage"
+                @page-changed="fetchPhotos"></pagination>
     <section class="grid">
       <div class="grid__item card" v-for="photo in photos">
         <div class="card__body">
-          <img :src="photo.urls.small" alt="">
+          <a :href="photo.urls.full" target="_blank">
+            <img :src="photo.urls.small" alt="">
+          </a>
         </div>
         <div class="card__footer media">
           <img :src="photo.user.profile_image.small" alt="" class="media__obj">
@@ -48,7 +53,11 @@ export default {
                   console.log(response.data)
                   that.photos = response.data
                   //that.totalPhotos = parseInt(response.headers.get('x-total')) // общее кол-во фоток на сервере - в заголовке 'x-total' (=~49150)
-                  that.totalPhotos = 49150;
+                  that.totalPhotos = parseInt(response.headers['x-total'])
+                   //that.totalPhotos = 49150;
+                  console.log("that.totalPhotos = ",that.totalPhotos)
+                  console.log("response.headers = ",response.headers)
+
                   that.currentPage = page
               }, console.log)
       }
